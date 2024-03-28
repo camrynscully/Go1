@@ -1,5 +1,5 @@
 %% Kinematic Model of the Go1
-%  "floating table" model of the Go1 
+% "floating table" model of the Go1 
 
 
 clear all
@@ -8,7 +8,7 @@ close all
 gray = [.7 .7 .7];
 
 % data = load('standing_joint_q.txt');
-data = load('walking_joint_q.txt');
+data = load('/Users/camrynscully/Desktop/go1/Data/walking_joint_q.txt');
 
 % length of each link [m]
 bw = 0.0935;
