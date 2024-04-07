@@ -3,8 +3,8 @@
 clear all
 close all
 
-pos = load("../Data/position_X_Z_Y_04_04_24_new_policy.txt");  % z = forward, x = lateral, y = vertical
-% pos = load("../Data/position_X_Z_Y_04_04_24_baseline.txt");
+% pos = load("../Data/position_X_Z_Y_04_04_24_new_policy.txt");  % z = forward, x = lateral, y = vertical
+pos = load("../Data/position_X_Z_Y_04_04_24_baseline.txt");
 
 % flip the y and z positions so it is consisent for velocity, accel calcuations
 position = [pos(:,1) pos(:,3) pos(:,2)];
@@ -207,8 +207,8 @@ end
 
 %% Orientation Plots
 
-orientation = load("../Data/orientation_Yaw_Pitch_Roll_04_04_24_new_policy.txt");
-% orientation = load("../Data/orientation_Yaw_Pitch_Roll_04_04_24_baseline.txt");
+% orientation = load("../Data/orientation_Yaw_Pitch_Roll_04_04_24_new_policy.txt");
+orientation = load("../Data/orientation_Yaw_Pitch_Roll_04_04_24_baseline.txt");
 
 orientation = deg2rad(orientation); % convert to radians
 
@@ -275,26 +275,14 @@ savefig(fig6,output + "__orientation"+".fig");
 %% Metrics for Acceleration and Jerk
 
 % acceleration
-min_acc_x = min(acceleration(:,1));
-min_acc_y = min(acceleration(:,2));
-min_acc_z = min(acceleration(:,3));
+min_acc = [min(acceleration(:,1)); min(acceleration(:,2)); min(acceleration(:,3))];
+max_acc = [max(acceleration(:,1)); max(acceleration(:,2)); max(acceleration(:,3))];
 
-max_acc_x = max(acceleration(:,1));
-max_acc_y = max(acceleration(:,2));
-max_acc_z = max(acceleration(:,3));
-
-range_acc_x = abs(max_acc_x - abs(min_acc_x));
-range_acc_y = abs(max_acc_y - abs(min_acc_y));
-range_acc_z = abs(max_acc_z - abs(min_acc_z));
+range_acc = [max_acc(1,1) - min_acc(1,1); max_acc(2,1) - min_acc(2,1); max_acc(3,1) - min_acc(3,1)];
 
 % finding avg & std for accel
-avg_acc_x = mean(abs(acceleration(:,1)));
-avg_acc_y = mean(abs(acceleration(:,2)));
-avg_acc_z = mean(abs(acceleration(:,3)));
-
-std_acc_x = std(abs(acceleration(:,1)));
-std_acc_y = std(abs(acceleration(:,2)));
-std_acc_z = std(abs(acceleration(:,3)));
+avg_acc = [mean(abs(acceleration(:,1))); mean(abs(acceleration(:,2))); mean(abs(acceleration(:,3)))];
+std_acc = [std(abs(acceleration(:,1))); std(abs(acceleration(:,2))); std(abs(acceleration(:,3)))];
 
 % % avg and std for just the main walking part (not starting and stopping)
 % avg_acc_walk_x = mean(abs(acceleration(switch1:switch2,1)));
@@ -306,26 +294,14 @@ std_acc_z = std(abs(acceleration(:,3)));
 % std_acc_walk_z = std(abs(acceleration(switch1:switch2,3)));
 
 %% jerk
-min_jerk_x = min(jerk(:,1));
-min_jerk_y = min(jerk(:,2));
-min_jerk_z = min(jerk(:,3));
+min_jerk = [min(jerk(:,1)); min(jerk(:,2)); min(jerk(:,3))];
+max_jerk = [max(jerk(:,1)); max(jerk(:,2)); max(jerk(:,3))];
 
-max_jerk_x = max(jerk(:,1));
-max_jerk_y = max(jerk(:,2));
-max_jerk_z = max(jerk(:,3));
-
-range_jerk_x = abs(max_jerk_x - abs(min_jerk_x));
-range_jerk_y = abs(max_jerk_y - abs(min_jerk_y));
-range_jerk_z = abs(max_jerk_z - abs(min_jerk_z));
+range_jerk = [max_jerk(1,1) - min_jerk(1,1); max_jerk(2,1) - min_jerk(2,1); max_jerk(3,1) - min_jerk(3,1)];
 
 % finding avg & std for jerk
-avg_jerk_x = mean(abs(jerk(:,1)));
-avg_jerk_y = mean(abs(jerk(:,2)));
-avg_jerk_z = mean(abs(jerk(:,3)));
-
-std_jerk_x = std(abs(jerk(:,1)));
-std_jerk_y = std(abs(jerk(:,2)));
-std_jerk_z = std(abs(jerk(:,3)));
+avg_jerk = [mean(abs(jerk(:,1))); mean(abs(jerk(:,2))); mean(abs(jerk(:,3)))];
+std_jerk = [std(abs(jerk(:,1))); std(abs(jerk(:,2))); std(abs(jerk(:,3)))];
 
 % % avg and std for just the main walking part (not starting and stopping)
 % avg_jerk_walk_x = mean(abs(jerk(switch1:switch2,1)));
@@ -341,28 +317,28 @@ varNames1 = ["Acceleration","Mean","STD"];
 varTypes = ["string","double","double"];
 acc_values = table('Size',sz,'VariableTypes',varTypes,'VariableNames',varNames1);
 
-acc_values(1,:) = {'Ax',avg_acc_x, std_acc_x};
-acc_values(2,:) = {'Ay',avg_acc_y, std_acc_y};
-acc_values(3,:) = {'Az',avg_acc_z, std_acc_z};
+acc_values(1,:) = {'Ax',avg_acc(1,1), std_acc(1,1)};
+acc_values(2,:) = {'Ay',avg_acc(2,1), std_acc(2,1)};
+acc_values(3,:) = {'Az',avg_acc(3,1), std_acc(3,1)};
 
 varNames2 = ["Jerk","Mean","STD"];
 jerk_values = table('Size',sz,'VariableTypes',varTypes,'VariableNames',varNames2);
 
-jerk_values(1,:) = {'Jx',avg_jerk_x, std_jerk_x};
-jerk_values(2,:) = {'Jy',avg_jerk_y, std_jerk_y};
-jerk_values(3,:) = {'Jz',avg_jerk_z, std_jerk_z};
+jerk_values(1,:) = {'Jx',avg_jerk(1,1), std_jerk(1,1)};
+jerk_values(2,:) = {'Jy',avg_jerk(2,1), std_jerk(2,1)};
+jerk_values(3,:) = {'Jz',avg_jerk(3,1), std_jerk(3,1)};
 
 sz3 = [6 4];
 varNames3 = ["Metric","Min Value","Max Value","Range"];
 varTypes3 = ["string","double","double","double"];
 range_values = table('Size',sz3,'VariableTypes',varTypes3,'VariableNames',varNames3);
 
-range_values(1,:) = {'Ax',min_acc_x,max_acc_x,range_acc_x};
-range_values(2,:) = {'Ay',min_acc_y,max_acc_y,range_acc_y};
-range_values(3,:) = {'Az',min_acc_z,max_acc_z,range_acc_z};
-range_values(4,:) = {'Jx',min_jerk_x,max_jerk_x,range_jerk_x};
-range_values(5,:) = {'Jy',min_jerk_y,max_jerk_y,range_jerk_y};
-range_values(6,:) = {'Jz',min_jerk_z,max_jerk_z,range_jerk_z};
+range_values(1,:) = {'Ax',min_acc(1,1),max_acc(1,1),range_acc(1,1)};
+range_values(2,:) = {'Ay',min_acc(2,1),max_acc(2,1),range_acc(2,1)};
+range_values(3,:) = {'Az',min_acc(3,1),max_acc(3,1),range_acc(3,1)};
+range_values(4,:) = {'Jx',min_jerk(1,1),max_jerk(1,1),range_jerk(1,1)};
+range_values(5,:) = {'Jy',min_jerk(2,1),max_jerk(2,1),range_jerk(2,1)};
+range_values(6,:) = {'Jz',min_jerk(3,1),max_jerk(3,1),range_jerk(3,1)};
 
 disp(acc_values);
 disp(jerk_values);
