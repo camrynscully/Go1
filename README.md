@@ -1,7 +1,5 @@
 # Unitree Go1
-Rigid Body Kinematics for Unitree's Go1 quadruped robot. Including MATLAB code for the 
-plotting and simulation of the DH frames, calculation of the Jacobian, and end-effector forces as well as C++ 
-implementation for real-time integration with the robot.
+This repository presents rigid body kinematics for Unitree's Go1 quadruped robot and a means for estimating ground reaction forces on each foot over both rigid and compliant terrain. It includes C++ code for real-time integration as well as MATLAB code for post-processing.
 
 ## Contents
 * `DH`
@@ -19,6 +17,7 @@ implementation for real-time integration with the robot.
 ## Kinematics
 <div align="center">
   <img width="550" alt="go1DH_frames" src="https://raw.githubusercontent.com/camrynscully/Go1/refs/heads/main/DH/go1DH_frames.png?token=GHSAT0AAAAAACZN2G4DXJAOFRPM3OQZANIMZZWFARA">
+ <p>DH Frames for the Unitree Go1 EDU</p>
 </div>
 
 ### Denavit-Hartenberg (DH) Parameters
